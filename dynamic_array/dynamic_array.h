@@ -3,12 +3,12 @@
 
 #include <stddef.h>
 
-#define GROWTH_FACTOR 2 // Determines how much the array's capacity grows when resized.
+#define DA_GROWTH_FACTOR 2 // Determines how much the array's capacity grows when resized.
 
-typedef int element_t;
+typedef int da_element_t;
 
 typedef struct {
-    element_t *data;    // Array that stores the elements.
+    da_element_t *data; // Array that stores the elements.
     size_t size;        // Current number of elements stored in the array.
     size_t capacity;    // Maximum number of elements that can be stored.
 } dynamic_array;
@@ -18,14 +18,14 @@ typedef struct {
  * @param initial_capacity Initial number of allocated slots.
  * @return Pointer to the newly created array, or NULL on failure.
  */
-dynamic_array *create_array(size_t initial_capacity);
+dynamic_array *da_create(size_t initial_capacity);
 
 /*
  * Frees the internal buffer and the array structure.
  * Sets the caller's pointer to NULL after destruction.
  * @param array Pointer to the dynamic array pointer.
  */
-void destroy(dynamic_array **array);
+void da_destroy(dynamic_array **array);
 
 /*
  * Appends an element to the end of the array.
@@ -34,7 +34,7 @@ void destroy(dynamic_array **array);
  * @param element Value to append.
  * @return 0 on success, -1 on failure.
  */
-int push_back(dynamic_array *array, element_t element);
+int da_push_back(dynamic_array *array, da_element_t element);
 
 /*
  * Retrieves an element at the specified index.
@@ -43,7 +43,7 @@ int push_back(dynamic_array *array, element_t element);
  * @param result Pointer where the retrieved value will be stored.
  * @return 0 on success, -1 on failure.
  */
-int get(dynamic_array *array, size_t index, element_t *result);
+int da_get(dynamic_array *array, size_t index, da_element_t *result);
 
 /*
  * Replaces the element at the specified index.
@@ -52,21 +52,21 @@ int get(dynamic_array *array, size_t index, element_t *result);
  * @param element New value to store.
  * @return 0 on success, -1 on failure.
  */
-int set(dynamic_array *array, size_t index, element_t element);
+int da_set(dynamic_array *array, size_t index, da_element_t element);
 
 /*
  * Returns the current number of elements stored in the array.
  * @param array Pointer to the dynamic array.
  * @return Current size, or 0 if the array is NULL.
  */
-size_t size(dynamic_array *array);
+size_t da_size(dynamic_array *array);
 
 /*
  * Returns the current allocated capacity of the array.
  * @param array Pointer to the dynamic array.
  * @return Current capacity, or 0 if the array is NULL.
  */
-size_t capacity(dynamic_array *array);
+size_t da_capacity(dynamic_array *array);
 
 /*
  * Removes and retrieves the last element of the array.
@@ -75,7 +75,7 @@ size_t capacity(dynamic_array *array);
  * @param result Pointer where the removed value will be stored.
  * @return 0 on success, -1 on failure.
  */
-int pop_back(dynamic_array *array, element_t *result);
+int da_pop_back(dynamic_array *array, da_element_t *result);
 
 /*
  * Inserts an element at the specified index.
@@ -86,7 +86,7 @@ int pop_back(dynamic_array *array, element_t *result);
  * @param element Value to insert.
  * @return 0 on success, -1 on failure.
  */
-int insert_at(dynamic_array *array, size_t index, element_t element);
+int da_insert_at(dynamic_array *array, size_t index, da_element_t element);
 
 /*
  * Removes the element at the specified index.
@@ -96,7 +96,7 @@ int insert_at(dynamic_array *array, size_t index, element_t element);
  * @param index Index of the element to remove.
  * @return 0 on success, -1 on failure.
  */
-int remove_at(dynamic_array *array, size_t index);
+int da_remove_at(dynamic_array *array, size_t index);
 
 /*
  * Changes the allocated capacity of the array.
@@ -106,14 +106,14 @@ int remove_at(dynamic_array *array, size_t index);
  * @param new_capacity Desired capacity.
  * @return 0 on success, -1 on failure.
  */
-int resize(dynamic_array *array, size_t new_capacity);
+int da_resize(dynamic_array *array, size_t new_capacity);
 
 /*
  * Reduces the allocated capacity to match the current size.
  * @param array Pointer to the dynamic array.
  * @return 0 on success, -1 on failure.
  */
-int shrink(dynamic_array *array);
+int da_shrink(dynamic_array *array);
 
 /*
  * Searches for the first occurrence of a specified element.
@@ -122,7 +122,7 @@ int shrink(dynamic_array *array);
  * @param result Pointer where the found index will be stored.
  * @return 0 on success, -1 if the element is not found or an error occurs.
  */
-int find(dynamic_array *array, element_t element, size_t *result);
+int da_find(dynamic_array *array, da_element_t element, size_t *result);
 
 /*
  * Removes all elements from the array without freeing its allocated buffer.
@@ -130,7 +130,7 @@ int find(dynamic_array *array, element_t element, size_t *result);
  * @param array Pointer to the dynamic array.
  * @return 0 on success, -1 on failure.
  */
-int clear(dynamic_array *array);
+int da_clear(dynamic_array *array);
 
 /*
  * Reverses the order of elements in-place using a two-pointer swap strategy.
@@ -138,7 +138,7 @@ int clear(dynamic_array *array);
  * @param array Pointer to the dynamic array.
  * @return 0 on success, -1 on failure.
  */
-int reverse(dynamic_array *array);
+int da_reverse(dynamic_array *array);
 
 /*
  * Creates a deep copy of an existing dynamic array.
@@ -146,7 +146,7 @@ int reverse(dynamic_array *array);
  * @param array Pointer to the source dynamic array.
  * @return Pointer to the copied array, or NULL on failure.
  */
-dynamic_array *copy(dynamic_array *array);
+dynamic_array *da_copy(dynamic_array *array);
 
 /*
  * Swaps the internal buffers, sizes, and capacities of two arrays.
@@ -155,6 +155,6 @@ dynamic_array *copy(dynamic_array *array);
  * @param second_array Pointer to the second dynamic array.
  * @return 0 on success, -1 on failure.
  */
-int swap(dynamic_array *first_array, dynamic_array *second_array);
+int da_swap(dynamic_array *first_array, dynamic_array *second_array);
 
 #endif // DYNAMIC_ARRAY_H

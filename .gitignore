@@ -3,3 +3,4 @@
 *.so
 main
 test_dynamic_array
+build/

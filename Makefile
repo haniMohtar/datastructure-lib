@@ -1,21 +1,35 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -g
-SRC = dynamic_array/dynamic_array.c
-OBJ = $(SRC:.c=.o)
+CC       = gcc
+CFLAGS   = -Wall -Wextra -std=c11 -g -fsanitize=address,undefined -MMD -MP
+BUILD    = build
 
-libdatastructures.a: $(OBJ)
+INCLUDES = $(addprefix -I,$(sort $(dir $(wildcard */*.h))))
+
+LIB_SRC  = $(filter-out %/test_%.c,$(wildcard */*.c))
+LIB_OBJ  = $(LIB_SRC:%.c=$(BUILD)/%.o)
+LIB      = $(BUILD)/libdatastructures.a
+
+TEST_SRC = $(wildcard */test_*.c)
+TEST_BIN = $(TEST_SRC:%.c=$(BUILD)/%)
+
+all: $(LIB)
+
+$(LIB): $(LIB_OBJ)
 	ar rcs $@ $^
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-test_dynamic_array: dynamic_array/test_dynamic_array.c libdatastructures.a
-	$(CC) $(CFLAGS) -Idynamic_array $< -L. -ldatastructures -o $@
+$(TEST_BIN): $(BUILD)/%: %.c $(LIB)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INCLUDES) $< -L$(BUILD) -ldatastructures -o $@
 
-test: test_dynamic_array
-	./test_dynamic_array
+test: $(TEST_BIN)
+	@for t in $(TEST_BIN); do echo "== $$t"; ./$$t || exit 1; done
 
 clean:
-	rm -f $(OBJ) *.a test_dynamic_array
+	rm -rf $(BUILD)
 
-.PHONY: test clean
+-include $(LIB_OBJ:.o=.d)
+
+.PHONY: all test clean
