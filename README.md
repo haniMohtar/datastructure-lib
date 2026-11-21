@@ -46,13 +46,13 @@ make clean
 
 ## Use in your own project
 
-Compile against the library, pointing at the module's folder for its header:
+The library is built with sanitizers, so link with the same flags. Add an `-I` for each module whose header you include (some modules depend on others, e.g. `stack` needs `dynamic_array`):
 
 ```bash
-gcc main.c -Idynamic_array -Lbuild -ldatastructures -o main
+gcc main.c -Idynamic_array -Lbuild -ldatastructures -fsanitize=address,undefined -o main
 ```
 
-Alternatively, copy a module's `.h` and `.c` files into your project.
+Alternatively, copy a module's `.h` and `.c` files (and any modules it depends on) into your project.
 
 ## License
 
