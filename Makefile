@@ -4,7 +4,7 @@ BUILD    = build
 
 INCLUDES = $(addprefix -I,$(sort $(dir $(wildcard */*.h))))
 
-LIB_SRC  = $(filter-out %/test_%.c,$(wildcard */*.c))
+LIB_SRC  = $(filter-out $(wildcard */test_*.c),$(wildcard */*.c))
 LIB_OBJ  = $(LIB_SRC:%.c=$(BUILD)/%.o)
 LIB      = $(BUILD)/libdatastructures.a
 
