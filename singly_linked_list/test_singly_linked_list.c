@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "singly_linked_list.h"
+#include "../singly_linked_list/singly_linked_list.h"
 
 int main(void) {
     printf("singly_linked_list: no tests yet\n");
